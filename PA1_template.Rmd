@@ -30,6 +30,8 @@ hist(steps$Steps,main="Total steps per day",xlab="Steps per day")
 ```{r step_meanmedian}
 summary(steps$Steps)
 ```
+Mean steps=10770
+Median steps=10760
 
 # Average daily activity pattern
 ## time series plot
