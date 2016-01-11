@@ -64,6 +64,7 @@ hist(newsteps$x,main="Histogram of the total number of steps taken per day",xlab
 
 summary(newsteps$x)
 ```
+
 Mean steps = 10770
 Median steps = 10770
 
