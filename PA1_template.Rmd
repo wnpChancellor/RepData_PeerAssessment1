@@ -1,0 +1,64 @@
+---
+title: "PA1_template.Rmd"
+output: html_document
+---
+
+# Load data and transform:
+
+```{r loaddata}
+data<-read.csv("/Users/jingshi/desktop/Coursera/activity.csv",sep=",",na.strings="NA")
+steps<-aggregate(data$steps,by=list(Date=data$date),FUN=sum)
+colnames(steps)<-c("Date","Steps")
+```
+
+# Mean total number of steps taken per day:
+## total steps per day:
+```{r steps}
+print (steps)
+```
+
+## histogram of total steps per day:
+```{r step_plot, fig.height=6,fig.width=6}
+hist(steps$Steps,main="Total steps per day",xlab="Steps per day")
+```
+
+## mean and median of total steps per day:
+```{r step_meanmedian}
+summary(steps$Steps)
+```
+Mean steps=10770
+Median steps=10760
+
+# Average daily activity pattern
+## time series plot
+```{r plot}
+a<-data
+a[is.na(a)]<-0
+ave<-aggregate(a$steps,by=list(Int=a$interval),FUN=mean)
+plot(ave$Int,ave$x,type="l",main="Time series plot",xlab="5-minute interval",ylab="average number of steps taken")
+```
+- Accoding to the time series plot, the 835th 5-min interval contain the maximum average steps, which is 170.13.
+
+# Imputing missing value
+## total number of missing value 
+```{r missing}
+nmiss<-sum(is.na(data))
+```
+There are 2304 NA values in the dataset.
+
+## create new dataset that fills missing data in with mean for that 5-min interval
+```{r fill}
+library(plyr)
+impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
+newdat<-ddply(data, ~ interval, transform, steps = impute.mean(steps))
+```
+
+## Histogram of total number of steps per day, mean, and median total number of steps per day
+```{r stats}
+newsteps<-aggregate(newdat$steps,by=list(Date=newdat$date),FUN=sum)
+hist(newsteps$x,main="Histogram of the total number of steps taken per day",xlab="steps")
+
+summary(newsteps$x)
+```
+Mean steps = 10770
+Median steps = 10770
