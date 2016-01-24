@@ -19,7 +19,8 @@ print (steps)
 
 ## histogram of total steps per day:
 ```{r step_plot, fig.height=6,fig.width=6}
-hist(steps$Steps,main="Total steps per day",xlab="Steps per day")
+a=hist(steps$Steps,main="Total steps per day",xlab="Steps per day")
+a
 ```
 
 ## mean and median of total steps per day:
